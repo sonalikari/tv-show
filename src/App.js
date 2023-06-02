@@ -1,25 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import ShowList from "./ShowList";
+import ShowSummary from "./ShowSummary";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-function App() {
+
+const App = () => {
+  const [selectedShow, setSelectedShow] = useState(null);
+  const [bookingFormVisible, setBookingFormVisible] = useState(false);
+
+  const handleShowClick = (show) => {
+    setSelectedShow(show);
+  };
+
+  const handleBookTicket = (showName) => {
+    // Open the booking form here and pass showName and other relevant details
+    setBookingFormVisible(true);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      {!selectedShow && !bookingFormVisible && <ShowList setSelectedShow={handleShowClick} />}
+      {selectedShow && !bookingFormVisible && (
+        <ShowSummary selectedShow={selectedShow} handleBookTicket={handleBookTicket} />
+      )}
+      {bookingFormVisible && (
+        <div>
+          <h3>Booking Form</h3>
+          {/* Render your booking form here */}
+        </div>
+      )}
     </div>
   );
-}
+};
 
 export default App;
